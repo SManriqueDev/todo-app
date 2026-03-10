@@ -20,6 +20,7 @@ import { CreateTaskModalComponent } from '../../shared/components/create-task-mo
 import { CategoryService, TaskService } from '../../core/services';
 import { Task, Category } from '../../core/models';
 import { settings, add } from 'ionicons/icons';
+import { environment } from '../../../environments/environment';
 
 @Component({
   selector: 'app-dashboard',
@@ -57,6 +58,7 @@ export class DashboardPage implements OnInit {
 
   settings = settings;
   add = add;
+  readonly isDevMode = !environment.production;
 
   constructor() {}
 
@@ -107,5 +109,12 @@ export class DashboardPage implements OnInit {
 
   trackByTaskId(_index: number, task: Task): string {
     return task.id;
+  }
+
+  async generateDemoTasks(): Promise<void> {
+    const categoryIds = this.categories.map((category) => category.id);
+    await this.taskService.seedFakeTasks(1000, categoryIds);
+    this.activeFilter = 'all';
+    this.updateFilteredTasks();
   }
 }

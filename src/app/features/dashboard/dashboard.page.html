@@ -22,6 +22,14 @@
       (filterChange)="onFilterChange($event)"
     ></app-category-filter>
 
+    @if (isDevMode) {
+    <div class="dev-actions">
+      <ion-button fill="outline" size="small" (click)="generateDemoTasks()">
+        Generar 1000 tareas demo
+      </ion-button>
+    </div>
+    }
+
     <cdk-virtual-scroll-viewport
       *ngIf="filteredTasks.length > 0"
       class="task-viewport ion-content-scroll-host"
@@ -31,7 +39,7 @@
     >
       <ion-list class="task-list">
         <app-task-item
-          *cdkVirtualFor="let task of filteredTasks; trackBy: trackByTaskId"
+          *cdkVirtualFor="let task of filteredTasks; trackBy: trackByTaskId; templateCacheSize: 0"
           [task]="task"
           [category]="getCategoryById(task.categoryId)"
           (toggleTask)="onToggleTask($event)"

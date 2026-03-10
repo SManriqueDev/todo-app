@@ -109,6 +109,30 @@ export class TaskService {
     await this.persistTasks(updated);
   }
 
+  async seedFakeTasks(count: number, categoryIds: string[]): Promise<void> {
+    if (count < 1 || categoryIds.length === 0) {
+      return;
+    }
+
+    const baseTimestamp = Date.now();
+    const fakeTasks: Task[] = Array.from({ length: count }, (_value, index) => {
+      const categoryId = categoryIds[index % categoryIds.length];
+      const taskNumber = index + 1;
+      const isCompleted = taskNumber % 7 === 0;
+      return {
+        id: `demo-${baseTimestamp}-${taskNumber}`,
+        title: `Tarea demo #${taskNumber}: actividad ${((taskNumber - 1) % 25) + 1}`,
+        completed: isCompleted,
+        categoryId,
+        createdAt: baseTimestamp - index * 60_000,
+        completedAt: isCompleted ? baseTimestamp - index * 60_000 : undefined,
+      };
+    });
+
+    this.tasks$.next(fakeTasks);
+    await this.persistTasks(fakeTasks);
+  }
+
   async toggle(id: string): Promise<void> {
     const task = this.getById(id);
     if (!task) return;

@@ -1,4 +1,12 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import {
+  Component,
+  Input,
+  Output,
+  EventEmitter,
+  OnChanges,
+  SimpleChanges,
+  ViewChild,
+} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {
   IonItemSliding,
@@ -30,20 +38,28 @@ import { Task, Category } from '../../../core/models';
   templateUrl: './task-item.component.html',
   styleUrl: './task-item.component.scss',
 })
-export class TaskItemComponent {
+export class TaskItemComponent implements OnChanges {
   @Input() task!: Task;
   @Input() category!: Category | undefined;
   @Output() toggleTask = new EventEmitter<string>();
   @Output() deleteTask = new EventEmitter<string>();
+  @ViewChild(IonItemSliding) slidingItem?: IonItemSliding;
 
   trash = trash;
 
+  ngOnChanges(changes: SimpleChanges): void {
+    if (!changes['task'] || changes['task'].firstChange || !this.slidingItem) {
+      return;
+    }
+    void this.slidingItem.close();
+  }
+
   onToggle(): void {
-    console.log('Toggling task:', this.task.id);
     this.toggleTask.emit(this.task.id);
   }
 
   onDelete(): void {
+    void this.slidingItem?.close();
     this.deleteTask.emit(this.task.id);
   }
 }

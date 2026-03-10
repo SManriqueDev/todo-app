@@ -1,6 +1,11 @@
 <ion-item-sliding>
-  <ion-item class="task-item" [class.completed]="task.completed" (ionChange)="onToggle()">
-    <ion-checkbox slot="start" [checked]="task.completed" class="task-checkbox"></ion-checkbox>
+  <ion-item class="task-item" [class.completed]="task.completed">
+    <ion-checkbox
+      slot="start"
+      [checked]="task.completed"
+      (ionChange)="onToggle()"
+      class="task-checkbox"
+    ></ion-checkbox>
     <ion-label>
       <div class="task-title" [class.completed]="task.completed">
         {{ task.title }}
