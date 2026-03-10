@@ -10,20 +10,20 @@
  */
 
 /* Core CSS required for Ionic components to work properly */
-@import "@ionic/angular/css/core.css";
+@import '@ionic/angular/css/core.css';
 
 /* Basic CSS for apps built with Ionic */
-@import "@ionic/angular/css/normalize.css";
-@import "@ionic/angular/css/structure.css";
-@import "@ionic/angular/css/typography.css";
-@import "@ionic/angular/css/display.css";
+@import '@ionic/angular/css/normalize.css';
+@import '@ionic/angular/css/structure.css';
+@import '@ionic/angular/css/typography.css';
+@import '@ionic/angular/css/display.css';
 
 /* Optional CSS utils that can be commented out */
-@import "@ionic/angular/css/padding.css";
-@import "@ionic/angular/css/float-elements.css";
-@import "@ionic/angular/css/text-alignment.css";
-@import "@ionic/angular/css/text-transformation.css";
-@import "@ionic/angular/css/flex-utils.css";
+@import '@ionic/angular/css/padding.css';
+@import '@ionic/angular/css/float-elements.css';
+@import '@ionic/angular/css/text-alignment.css';
+@import '@ionic/angular/css/text-transformation.css';
+@import '@ionic/angular/css/flex-utils.css';
 
 /**
  * Ionic Dark Mode
@@ -35,3 +35,119 @@
 /* @import "@ionic/angular/css/palettes/dark.always.css"; */
 /* @import "@ionic/angular/css/palettes/dark.class.css"; */
 @import '@ionic/angular/css/palettes/dark.system.css';
+
+/* Gamified To-Do List Global Styles */
+
+* {
+  font-family:
+    'Inter',
+    -apple-system,
+    BlinkMacSystemFont,
+    'Segoe UI',
+    'Roboto',
+    'Helvetica',
+    'Arial',
+    sans-serif;
+}
+
+html {
+  /* Safe area variables for notched devices */
+  --safe-area-top: max(env(safe-area-inset-top), 0px);
+  --safe-area-right: max(env(safe-area-inset-right), 0px);
+  --safe-area-bottom: max(env(safe-area-inset-bottom), 0px);
+  --safe-area-left: max(env(safe-area-inset-left), 0px);
+}
+
+body {
+  background-color: #f3f4f6;
+}
+
+/* Scrollbar hide utility */
+.scrollbar-hide {
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+}
+
+.scrollbar-hide::-webkit-scrollbar {
+  display: none; /* Chrome, Safari and Opera */
+}
+
+/* Ionic overrides */
+ion-item {
+  --padding-start: 0;
+  --padding-end: 0;
+  --inner-padding-end: 0;
+}
+
+ion-card {
+  --ion-card-background: white;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+}
+
+ion-progress-bar {
+  --ion-progress-bar-background: #e5e7eb;
+}
+
+ion-badge {
+  background-color: #f3f4f6;
+  color: #6b7280;
+}
+
+ion-checkbox {
+  --checkmark-color: white;
+  --border-radius: 50%;
+}
+
+ion-button[color='primary'] {
+  --background: #7c3aed;
+  --background-activated: #6d2dd6;
+  --background-hover: #8b5cf6;
+}
+
+/* Global header consistency across iOS/Android */
+ion-header {
+  filter: none;
+  box-shadow: none;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+ion-header ion-toolbar {
+  --background: #ffffff;
+  --border-width: 0;
+  box-shadow: none;
+}
+
+.md ion-header,
+.md ion-header ion-toolbar {
+  box-shadow: none !important;
+}
+
+/* Utility classes */
+.text-center {
+  text-align: center;
+}
+
+.text-muted {
+  color: #9ca3af;
+}
+
+.text-muted-sm {
+  color: #d1d5db;
+  font-size: 12px;
+}
+
+.card-shadow {
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.rounded-lg {
+  border-radius: 8px;
+}
+
+.rounded-xl {
+  border-radius: 12px;
+}
+
+.rounded-full {
+  border-radius: 999px;
+}

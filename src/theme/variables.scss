@@ -1,2 +1,32 @@
 // For information on how to create your own theme, please refer to:
 // https://ionicframework.com/docs/theming/
+
+// Gamified To-Do List Theme
+// Primary purple color for the app
+:root {
+  --ion-color-primary: #7c3aed;
+  --ion-color-primary-rgb: 124, 58, 237;
+  --ion-color-primary-contrast: #ffffff;
+  --ion-color-primary-contrast-rgb: 255, 255, 255;
+  --ion-color-primary-shade: #6d2dd6;
+  --ion-color-primary-tint: #8b5cf6;
+
+  // Light theme
+  --ion-color-light: #f3f4f6;
+  --ion-color-light-rgb: 243, 244, 246;
+  --ion-color-light-contrast: #1f2937;
+  --ion-color-light-contrast-rgb: 31, 41, 55;
+  --ion-color-light-shade: #d5d7db;
+  --ion-color-light-tint: #f4f6f8;
+}
+
+// Font imports
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+// Safe area support for notches
+html {
+  --padding-top: max(var(--ion-safe-area-top), 16px);
+  --padding-right: max(var(--ion-safe-area-right), 16px);
+  --padding-bottom: max(var(--ion-safe-area-bottom), 16px);
+  --padding-left: max(var(--ion-safe-area-left), 16px);
+}
