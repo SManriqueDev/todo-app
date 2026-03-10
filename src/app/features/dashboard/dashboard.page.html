@@ -17,8 +17,8 @@
     <app-gamification-header></app-gamification-header>
 
     <app-category-filter
-      [categories]="categories"
-      [activeFilter]="activeFilter"
+      [categories]="categories()"
+      [activeFilter]="activeFilter()"
       (filterChange)="onFilterChange($event)"
     ></app-category-filter>
 
@@ -28,10 +28,8 @@
         Generar 1000 tareas demo
       </ion-button>
     </div>
-    }
-
+    } @if (filteredTasks().length > 0) {
     <cdk-virtual-scroll-viewport
-      *ngIf="filteredTasks.length > 0"
       class="task-viewport ion-content-scroll-host"
       [itemSize]="72"
       [minBufferPx]="720"
@@ -39,7 +37,7 @@
     >
       <ion-list class="task-list">
         <app-task-item
-          *cdkVirtualFor="let task of filteredTasks; trackBy: trackByTaskId; templateCacheSize: 0"
+          *cdkVirtualFor="let task of filteredTasks(); trackBy: trackByTaskId; templateCacheSize: 0"
           [task]="task"
           [category]="getCategoryById(task.categoryId)"
           (toggleTask)="onToggleTask($event)"
@@ -47,8 +45,7 @@
         ></app-task-item>
       </ion-list>
     </cdk-virtual-scroll-viewport>
-
-    @if (filteredTasks.length === 0) {
+    } @if (filteredTasks().length === 0) {
     <div class="empty-state">
       <div class="empty-icon">📝</div>
       <p class="empty-text">Aún no tienes tareas. ¡Crea una!</p>

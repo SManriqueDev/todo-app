@@ -1,4 +1,11 @@
-import { Component, OnInit, ViewChild, inject } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  ViewChild,
+  computed,
+  inject,
+  signal,
+} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ScrollingModule } from '@angular/cdk/scrolling';
 import { RouterModule } from '@angular/router';
@@ -42,19 +49,27 @@ import { environment } from '../../../environments/environment';
     TaskItemComponent,
     CreateTaskModalComponent,
   ],
+  changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './dashboard.page.html',
   styleUrl: './dashboard.page.scss',
 })
-export class DashboardPage implements OnInit {
+export class DashboardPage {
   private readonly categoryService = inject(CategoryService);
   private readonly taskService = inject(TaskService);
   private readonly router = inject(Router);
   @ViewChild('createModal') createModal!: CreateTaskModalComponent;
 
-  activeFilter = 'all';
-  categories: Category[] = [];
-  tasks: Task[] = [];
-  filteredTasks: Task[] = [];
+  activeFilter = signal('all');
+  readonly categories = this.categoryService.categories;
+  readonly tasks = this.taskService.tasks;
+  readonly filteredTasks = computed(() => {
+    const filter = this.activeFilter();
+    const tasks = this.tasks();
+    if (filter === 'all') {
+      return tasks;
+    }
+    return tasks.filter((task) => task.categoryId === filter);
+  });
 
   settings = settings;
   add = add;
@@ -62,33 +77,12 @@ export class DashboardPage implements OnInit {
 
   constructor() {}
 
-  ngOnInit(): void {
-    this.categoryService.categories.subscribe((cats) => {
-      this.categories = cats;
-      this.updateFilteredTasks();
-    });
-
-    this.taskService.tasks.subscribe((tasks) => {
-      this.tasks = tasks;
-      this.updateFilteredTasks();
-    });
-  }
-
   onFilterChange(filter: string): void {
-    this.activeFilter = filter;
-    this.updateFilteredTasks();
-  }
-
-  private updateFilteredTasks(): void {
-    if (this.activeFilter === 'all') {
-      this.filteredTasks = this.tasks;
-    } else {
-      this.filteredTasks = this.tasks.filter((t) => t.categoryId === this.activeFilter);
-    }
+    this.activeFilter.set(filter);
   }
 
   getCategoryById(id: string): Category | undefined {
-    return this.categories.find((c) => c.id === id);
+    return this.categories().find((category) => category.id === id);
   }
 
   async onToggleTask(taskId: string): Promise<void> {
@@ -112,9 +106,8 @@ export class DashboardPage implements OnInit {
   }
 
   async generateDemoTasks(): Promise<void> {
-    const categoryIds = this.categories.map((category) => category.id);
+    const categoryIds = this.categories().map((category) => category.id);
     await this.taskService.seedFakeTasks(1000, categoryIds);
-    this.activeFilter = 'all';
-    this.updateFilteredTasks();
+    this.activeFilter.set('all');
   }
 }

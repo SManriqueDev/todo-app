@@ -30,7 +30,7 @@
       <div class="form-section">
         <label class="section-label">Asignar categoría</label>
         <div class="category-pills">
-          @for (category of categories; track category.id) {
+          @for (category of categories(); track category.id) {
             <button
               class="category-pill"
               [class.active]="selectedCategoryId === category.id"

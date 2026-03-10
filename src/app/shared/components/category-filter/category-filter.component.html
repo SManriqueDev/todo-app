@@ -1,15 +1,15 @@
 <div class="category-filter-row">
   <button
     class="filter-chip"
-    [class.active]="activeFilter === 'all'"
+    [class.active]="activeFilter() === 'all'"
     (click)="onFilterChange('all')"
   >
     Todas
   </button>
-  @for (category of categories; track category.id) {
+  @for (category of categories(); track category.id) {
     <button
       class="filter-chip"
-      [class.active]="activeFilter === category.id"
+      [class.active]="activeFilter() === category.id"
       (click)="onFilterChange(category.id)"
     >
       <span class="emoji">{{ category.emoji }}</span>

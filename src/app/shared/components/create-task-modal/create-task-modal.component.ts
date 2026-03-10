@@ -1,4 +1,4 @@
-import { Component, ViewChild, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, ViewChild, effect, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import {
@@ -13,7 +13,6 @@ import {
 } from '@ionic/angular/standalone';
 import { IonIcon } from '@ionic/angular/standalone';
 import { close } from 'ionicons/icons';
-import { Category } from '../../../core/models';
 import { CategoryService, TaskService } from '../../../core/services';
 
 @Component({
@@ -32,6 +31,7 @@ import { CategoryService, TaskService } from '../../../core/services';
     IonInput,
     IonIcon,
   ],
+  changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './create-task-modal.component.html',
   styleUrl: './create-task-modal.component.scss',
 })
@@ -42,15 +42,15 @@ export class CreateTaskModalComponent {
 
   taskTitle = '';
   selectedCategoryId = '';
-  categories: Category[] = [];
+  readonly categories = this.categoryService.categories;
 
   close = close;
 
   constructor() {
-    this.categoryService.categories.subscribe((cats) => {
-      this.categories = cats;
-      if (!this.selectedCategoryId && cats.length > 0) {
-        this.selectedCategoryId = cats[0].id;
+    effect(() => {
+      const categories = this.categories();
+      if (!this.selectedCategoryId && categories.length > 0) {
+        this.selectedCategoryId = categories[0].id;
       }
     });
   }

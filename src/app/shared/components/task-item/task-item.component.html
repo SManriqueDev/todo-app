@@ -1,19 +1,19 @@
 <ion-item-sliding>
-  <ion-item class="task-item" [class.completed]="task.completed">
+  <ion-item class="task-item" [class.completed]="task().completed">
     <ion-checkbox
       slot="start"
-      [checked]="task.completed"
+      [checked]="task().completed"
       (ionChange)="onToggle()"
       class="task-checkbox"
     ></ion-checkbox>
     <ion-label>
-      <div class="task-title" [class.completed]="task.completed">
-        {{ task.title }}
+      <div class="task-title" [class.completed]="task().completed">
+        {{ task().title }}
       </div>
     </ion-label>
-    @if (category) {
+    @if (category()) {
       <ion-badge slot="end" color="light" class="category-badge">
-        {{ category.emoji }}
+        {{ category()?.emoji }}
       </ion-badge>
     }
   </ion-item>

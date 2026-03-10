@@ -12,8 +12,9 @@
     <div class="categories-section">
       <h2 class="section-title">Tus categorías</h2>
       <ion-list>
-        @for (category of categories; track category.id) {
-        <ion-item class="category-item" *ngIf="!editingId || editingId !== category.id">
+        @for (category of categories(); track category.id) { @if (!editingId || editingId !==
+        category.id) {
+        <ion-item class="category-item">
           <div class="category-content">
             <span class="emoji">{{ category.emoji }}</span>
             <span class="category-name">{{ category.name }}</span>
@@ -27,8 +28,7 @@
             </ion-button>
           </div>
         </ion-item>
-
-        @if (editingId === category.id) {
+        } @if (editingId === category.id) {
         <ion-item class="category-item edit-mode">
           <button class="emoji-button" (click)="cycleEmoji()">{{ editEmoji }}</button>
           <ion-input

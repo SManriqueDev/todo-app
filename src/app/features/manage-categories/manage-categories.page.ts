@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, ViewChild, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import {
@@ -69,15 +69,16 @@ const POPULAR_EMOJIS = [
     IonCardContent,
     IonAlert,
   ],
+  changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './manage-categories.page.html',
   styleUrl: './manage-categories.page.scss',
 })
-export class ManageCategoriesPage implements OnInit {
+export class ManageCategoriesPage {
   private readonly categoryService = inject(CategoryService);
   private readonly taskService = inject(TaskService);
   @ViewChild('deleteAlert') deleteAlert!: IonAlert;
 
-  categories: Category[] = [];
+  readonly categories = this.categoryService.categories;
   newCategoryName = '';
   selectedEmoji = '💼';
   editingId: string | null = null;
@@ -96,12 +97,6 @@ export class ManageCategoriesPage implements OnInit {
   private categoryToDelete: Category | null = null;
 
   constructor() {}
-
-  ngOnInit(): void {
-    this.categoryService.categories.subscribe((cats) => {
-      this.categories = cats;
-    });
-  }
 
   selectEmoji(emoji: string): void {
     this.selectedEmoji = emoji;

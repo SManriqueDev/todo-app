@@ -1,5 +1,4 @@
-import { Injectable, inject } from '@angular/core';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { Injectable, inject, signal } from '@angular/core';
 import { UserStats } from '../models';
 import { StorageService } from './storage.service';
 import { FirebaseConfigService } from './firebase-config.service';
@@ -16,10 +15,10 @@ const SEED_STATS: UserStats = {
   providedIn: 'root',
 })
 export class GamificationService {
-  private stats$ = new BehaviorSubject<UserStats>(SEED_STATS);
-  readonly stats: Observable<UserStats> = this.stats$.asObservable();
-  private levelUp$ = new BehaviorSubject<number | null>(null);
-  readonly levelUp: Observable<number | null> = this.levelUp$.asObservable();
+  private readonly statsSignal = signal<UserStats>(SEED_STATS);
+  readonly stats = this.statsSignal.asReadonly();
+  private readonly levelUpSignal = signal<number | null>(null);
+  readonly levelUp = this.levelUpSignal.asReadonly();
   private readonly storageService = inject(StorageService);
   private readonly firebaseConfigService = inject(FirebaseConfigService);
 
@@ -30,9 +29,9 @@ export class GamificationService {
   private async init(): Promise<void> {
     const stored = await this.storageService.get<UserStats>(USER_STATS_KEY);
     if (stored) {
-      this.stats$.next(stored);
+      this.statsSignal.set(stored);
     } else {
-      this.stats$.next(SEED_STATS);
+      this.statsSignal.set(SEED_STATS);
       await this.persistStats(SEED_STATS);
     }
   }
@@ -42,11 +41,11 @@ export class GamificationService {
   }
 
   getStats(): UserStats {
-    return this.stats$.value;
+    return this.statsSignal();
   }
 
   addXP(amount: number): void {
-    const stats = { ...this.stats$.value };
+    const stats = { ...this.statsSignal() };
     const previousLevel = stats.level;
     const maxXpPerLevel = this.firebaseConfigService.getMaxXpPerLevel();
     stats.currentXP += amount;
@@ -58,20 +57,20 @@ export class GamificationService {
       stats.currentXP -= maxXpPerLevel;
     }
 
-    this.stats$.next(stats);
-    this.persistStats(stats);
+    this.statsSignal.set(stats);
+    void this.persistStats(stats);
 
     if (stats.level > previousLevel) {
-      this.levelUp$.next(stats.level);
+      this.levelUpSignal.set(stats.level);
     }
   }
 
   removeXP(amount: number): void {
-    const stats = { ...this.stats$.value };
+    const stats = { ...this.statsSignal() };
     stats.currentXP = Math.max(0, stats.currentXP - amount);
     stats.totalXPEarned = Math.max(0, stats.totalXPEarned - amount);
 
-    this.stats$.next(stats);
-    this.persistStats(stats);
+    this.statsSignal.set(stats);
+    void this.persistStats(stats);
   }
 }

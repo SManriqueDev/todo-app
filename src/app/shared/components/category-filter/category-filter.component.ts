@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { ChangeDetectionStrategy, Component, input, output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Category } from '../../../core/models';
 
@@ -6,13 +6,14 @@ import { Category } from '../../../core/models';
   selector: 'app-category-filter',
   standalone: true,
   imports: [CommonModule],
+  changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './category-filter.component.html',
   styleUrl: './category-filter.component.scss',
 })
 export class CategoryFilterComponent {
-  @Input() categories: Category[] = [];
-  @Input() activeFilter: string = 'all';
-  @Output() filterChange = new EventEmitter<string>();
+  categories = input<Category[]>([]);
+  activeFilter = input('all');
+  filterChange = output<string>();
 
   onFilterChange(filter: string): void {
     this.filterChange.emit(filter);

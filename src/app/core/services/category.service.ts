@@ -1,5 +1,4 @@
-import { Injectable, inject } from '@angular/core';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { Injectable, inject, signal } from '@angular/core';
 import { Category } from '../models';
 import { StorageService } from './storage.service';
 
@@ -23,8 +22,8 @@ const LEGACY_CATEGORY_TRANSLATIONS: Record<string, string> = {
   providedIn: 'root',
 })
 export class CategoryService {
-  private categories$ = new BehaviorSubject<Category[]>([]);
-  readonly categories: Observable<Category[]> = this.categories$.asObservable();
+  private readonly categoriesSignal = signal<Category[]>([]);
+  readonly categories = this.categoriesSignal.asReadonly();
   private readonly storageService = inject(StorageService);
 
   constructor() {
@@ -38,10 +37,10 @@ export class CategoryService {
         const translatedName = LEGACY_CATEGORY_TRANSLATIONS[category.name];
         return translatedName ? { ...category, name: translatedName } : category;
       });
-      this.categories$.next(migrated);
+      this.categoriesSignal.set(migrated);
       await this.persistCategories(migrated);
     } else {
-      this.categories$.next(SEED_CATEGORIES);
+      this.categoriesSignal.set(SEED_CATEGORIES);
       await this.persistCategories(SEED_CATEGORIES);
     }
   }
@@ -51,11 +50,11 @@ export class CategoryService {
   }
 
   getAll(): Category[] {
-    return this.categories$.value;
+    return this.categoriesSignal();
   }
 
   getById(id: string): Category | undefined {
-    return this.categories$.value.find((c) => c.id === id);
+    return this.categoriesSignal().find((c) => c.id === id);
   }
 
   async add(name: string, emoji: string): Promise<void> {
@@ -65,20 +64,20 @@ export class CategoryService {
       emoji,
       createdAt: Date.now(),
     };
-    const updated = [...this.categories$.value, newCategory];
-    this.categories$.next(updated);
+    const updated = [...this.categoriesSignal(), newCategory];
+    this.categoriesSignal.set(updated);
     await this.persistCategories(updated);
   }
 
   async update(id: string, name: string, emoji: string): Promise<void> {
-    const updated = this.categories$.value.map((c) => (c.id === id ? { ...c, name, emoji } : c));
-    this.categories$.next(updated);
+    const updated = this.categoriesSignal().map((c) => (c.id === id ? { ...c, name, emoji } : c));
+    this.categoriesSignal.set(updated);
     await this.persistCategories(updated);
   }
 
   async delete(id: string): Promise<void> {
-    const updated = this.categories$.value.filter((c) => c.id !== id);
-    this.categories$.next(updated);
+    const updated = this.categoriesSignal().filter((c) => c.id !== id);
+    this.categoriesSignal.set(updated);
     await this.persistCategories(updated);
   }
 }

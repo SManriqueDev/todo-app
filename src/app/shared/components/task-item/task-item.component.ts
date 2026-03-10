@@ -1,11 +1,10 @@
 import {
+  ChangeDetectionStrategy,
   Component,
-  Input,
-  Output,
-  EventEmitter,
-  OnChanges,
-  SimpleChanges,
   ViewChild,
+  effect,
+  input,
+  output,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {
@@ -35,31 +34,38 @@ import { Task, Category } from '../../../core/models';
     IonItemOption,
     IonIcon,
   ],
+  changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './task-item.component.html',
   styleUrl: './task-item.component.scss',
 })
-export class TaskItemComponent implements OnChanges {
-  @Input() task!: Task;
-  @Input() category!: Category | undefined;
-  @Output() toggleTask = new EventEmitter<string>();
-  @Output() deleteTask = new EventEmitter<string>();
+export class TaskItemComponent {
+  task = input.required<Task>();
+  category = input<Category | undefined>();
+  toggleTask = output<string>();
+  deleteTask = output<string>();
   @ViewChild(IonItemSliding) slidingItem?: IonItemSliding;
 
   trash = trash;
 
-  ngOnChanges(changes: SimpleChanges): void {
-    if (!changes['task'] || changes['task'].firstChange || !this.slidingItem) {
-      return;
-    }
-    void this.slidingItem.close();
+  private firstTaskEmission = true;
+
+  constructor() {
+    effect(() => {
+      this.task();
+      if (this.firstTaskEmission) {
+        this.firstTaskEmission = false;
+        return;
+      }
+      void this.slidingItem?.close();
+    });
   }
 
   onToggle(): void {
-    this.toggleTask.emit(this.task.id);
+    this.toggleTask.emit(this.task().id);
   }
 
   onDelete(): void {
     void this.slidingItem?.close();
-    this.deleteTask.emit(this.task.id);
+    this.deleteTask.emit(this.task().id);
   }
 }

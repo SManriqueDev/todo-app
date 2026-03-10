@@ -1,5 +1,4 @@
-import { Injectable, inject } from '@angular/core';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { Injectable, inject, signal } from '@angular/core';
 import { Task } from '../models';
 import { StorageService } from './storage.service';
 import { GamificationService } from './gamification.service';
@@ -59,8 +58,8 @@ const LEGACY_TASK_TRANSLATIONS: Record<string, string> = {
   providedIn: 'root',
 })
 export class TaskService {
-  private tasks$ = new BehaviorSubject<Task[]>([]);
-  readonly tasks: Observable<Task[]> = this.tasks$.asObservable();
+  private readonly tasksSignal = signal<Task[]>([]);
+  readonly tasks = this.tasksSignal.asReadonly();
   private readonly storageService = inject(StorageService);
   private readonly gamificationService = inject(GamificationService);
   private readonly firebaseConfigService = inject(FirebaseConfigService);
@@ -76,10 +75,10 @@ export class TaskService {
         const translatedTitle = LEGACY_TASK_TRANSLATIONS[task.title];
         return translatedTitle ? { ...task, title: translatedTitle } : task;
       });
-      this.tasks$.next(migrated);
+      this.tasksSignal.set(migrated);
       await this.persistTasks(migrated);
     } else {
-      this.tasks$.next(SEED_TASKS);
+      this.tasksSignal.set(SEED_TASKS);
       await this.persistTasks(SEED_TASKS);
     }
   }
@@ -89,11 +88,11 @@ export class TaskService {
   }
 
   getAll(): Task[] {
-    return this.tasks$.value;
+    return this.tasksSignal();
   }
 
   getById(id: string): Task | undefined {
-    return this.tasks$.value.find((t) => t.id === id);
+    return this.tasksSignal().find((t) => t.id === id);
   }
 
   async add(title: string, categoryId: string): Promise<void> {
@@ -104,8 +103,8 @@ export class TaskService {
       categoryId,
       createdAt: Date.now(),
     };
-    const updated = [...this.tasks$.value, newTask];
-    this.tasks$.next(updated);
+    const updated = [...this.tasksSignal(), newTask];
+    this.tasksSignal.set(updated);
     await this.persistTasks(updated);
   }
 
@@ -129,7 +128,7 @@ export class TaskService {
       };
     });
 
-    this.tasks$.next(fakeTasks);
+    this.tasksSignal.set(fakeTasks);
     await this.persistTasks(fakeTasks);
   }
 
@@ -138,11 +137,15 @@ export class TaskService {
     if (!task) return;
 
     const wasCompleted = task.completed;
-    task.completed = !task.completed;
-    task.completedAt = !wasCompleted ? Date.now() : undefined;
-
-    const updated = this.tasks$.value.map((t) => (t.id === id ? task : t));
-    this.tasks$.next(updated);
+    const updatedTask: Task = {
+      ...task,
+      completed: !task.completed,
+      completedAt: !wasCompleted ? Date.now() : undefined,
+    };
+    const updated = this.tasksSignal().map((existingTask) =>
+      existingTask.id === id ? updatedTask : existingTask,
+    );
+    this.tasksSignal.set(updated);
     await this.persistTasks(updated);
 
     // Update XP
@@ -156,14 +159,14 @@ export class TaskService {
   }
 
   async delete(id: string): Promise<void> {
-    const updated = this.tasks$.value.filter((t) => t.id !== id);
-    this.tasks$.next(updated);
+    const updated = this.tasksSignal().filter((t) => t.id !== id);
+    this.tasksSignal.set(updated);
     await this.persistTasks(updated);
   }
 
   async deleteByCategory(categoryId: string): Promise<void> {
-    const updated = this.tasks$.value.filter((task) => task.categoryId !== categoryId);
-    this.tasks$.next(updated);
+    const updated = this.tasksSignal().filter((task) => task.categoryId !== categoryId);
+    this.tasksSignal.set(updated);
     await this.persistTasks(updated);
   }
 }
