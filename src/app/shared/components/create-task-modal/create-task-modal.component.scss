@@ -1,0 +1,85 @@
+ion-modal {
+  --border-radius: 24px 24px 0 0;
+}
+
+.modal-content::part(scroll) {
+  padding: 20px 16px 0;
+  padding-bottom: calc(20px + var(--ion-safe-area-bottom, 0px));
+}
+
+.modal-content {
+  padding: 28px 0 8px;
+}
+
+.form-section {
+  margin-bottom: 24px;
+}
+
+.section-label {
+  display: block;
+  font-size: 14px;
+  color: #6b7280;
+  margin-bottom: 12px;
+  font-weight: 600;
+}
+
+.task-input {
+  --padding-start: 0;
+  --padding-end: 0;
+  font-size: 16px;
+  font-weight: 500;
+  border-bottom: 2px solid #e5e7eb;
+  --color: #1f2937;
+}
+
+.category-pills {
+  display: flex;
+  gap: 8px;
+  overflow-x: auto;
+  overflow-y: hidden;
+  padding-bottom: 8px;
+  scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch;
+}
+
+.category-pills::-webkit-scrollbar {
+  display: none;
+}
+
+.category-pill {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 16px;
+  border: 2px solid #e5e7eb;
+  border-radius: 999px;
+  background: #f9fafb;
+  color: #374151;
+  font-size: 14px;
+  font-weight: 500;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  flex-shrink: 0;
+}
+
+.category-pill:hover {
+  border-color: #7c3aed;
+  background: #f3e8ff;
+}
+
+.category-pill.active {
+  background: #f3e8ff;
+  border-color: #7c3aed;
+  color: #7c3aed;
+}
+
+.emoji {
+  font-size: 18px;
+}
+
+.save-button {
+  margin-top: 12px;
+  --padding-top: 18px;
+  --padding-bottom: 18px;
+}

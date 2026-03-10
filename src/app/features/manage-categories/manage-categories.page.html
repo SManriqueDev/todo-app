@@ -1,0 +1,94 @@
+<ion-header>
+  <ion-toolbar color="light">
+    <ion-buttons slot="start">
+      <ion-back-button text=""></ion-back-button>
+    </ion-buttons>
+    <ion-title>Administrar categorías</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div class="page-container">
+    <div class="categories-section">
+      <h2 class="section-title">Tus categorías</h2>
+      <ion-list>
+        @for (category of categories; track category.id) {
+        <ion-item class="category-item" *ngIf="!editingId || editingId !== category.id">
+          <div class="category-content">
+            <span class="emoji">{{ category.emoji }}</span>
+            <span class="category-name">{{ category.name }}</span>
+          </div>
+          <div class="category-actions">
+            <ion-button fill="clear" size="small" (click)="startEdit(category)">
+              <ion-icon [icon]="pencil" color="medium"></ion-icon>
+            </ion-button>
+            <ion-button fill="clear" size="small" (click)="confirmDelete(category)">
+              <ion-icon [icon]="trash" color="danger"></ion-icon>
+            </ion-button>
+          </div>
+        </ion-item>
+
+        @if (editingId === category.id) {
+        <ion-item class="category-item edit-mode">
+          <button class="emoji-button" (click)="cycleEmoji()">{{ editEmoji }}</button>
+          <ion-input
+            [(ngModel)]="editName"
+            placeholder="Nombre de la categoría"
+            class="edit-input"
+          ></ion-input>
+          <div class="edit-actions">
+            <ion-button (click)="saveEdit()" color="primary" size="small"> Guardar </ion-button>
+            <ion-button (click)="cancelEdit()" fill="outline" size="small"> Cancelar </ion-button>
+          </div>
+        </ion-item>
+        } }
+      </ion-list>
+    </div>
+
+    <ion-card class="create-card">
+      <ion-card-content>
+        <h2 class="section-title">Crear nueva categoría</h2>
+
+        <div class="form-group">
+          <ion-input
+            [(ngModel)]="newCategoryName"
+            placeholder="Nombre de la categoría"
+            class="input-field"
+          ></ion-input>
+        </div>
+
+        <div class="form-group">
+          <label class="emoji-label">Elige un emoji</label>
+          <div class="emoji-picker">
+            @for (emoji of popularEmojis; track emoji) {
+            <button
+              class="emoji-option"
+              [class.selected]="selectedEmoji === emoji"
+              (click)="selectEmoji(emoji)"
+            >
+              {{ emoji }}
+            </button>
+            }
+          </div>
+        </div>
+
+        <ion-button
+          expand="block"
+          color="primary"
+          [disabled]="!newCategoryName.trim()"
+          (click)="addCategory()"
+          class="add-button"
+        >
+          Agregar categoría
+        </ion-button>
+      </ion-card-content>
+    </ion-card>
+  </div>
+</ion-content>
+
+<ion-alert
+  #deleteAlert
+  [header]="'Eliminar categoría'"
+  message="Todas las tareas de esta categoría también se eliminarán. ¿Estás seguro?"
+  [buttons]="alertButtons"
+></ion-alert>

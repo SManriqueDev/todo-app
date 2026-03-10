@@ -1,0 +1,22 @@
+<ng-container *ngIf="gamificationEnabled$ | async">
+  <ion-card class="gamification-card">
+    <ion-card-content>
+      <div class="gamification-container">
+        <div class="gamification-left">
+          <div class="avatar">👨‍💻</div>
+          <div class="level-info">
+            <div class="level-text">Nivel {{ stats?.level }}</div>
+            <div class="xp-text">{{ stats?.currentXP }}/{{ maxXpPerLevel }} XP</div>
+          </div>
+        </div>
+        <div class="gamification-right">🏆</div>
+      </div>
+      <div class="xp-bar-container">
+        <ion-progress-bar
+          class="xp-bar"
+          [value]="(stats?.currentXP || 0) / maxXpPerLevel"
+        ></ion-progress-bar>
+      </div>
+    </ion-card-content>
+  </ion-card>
+</ng-container>

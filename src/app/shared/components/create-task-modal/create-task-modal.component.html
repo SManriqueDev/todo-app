@@ -1,0 +1,59 @@
+<ion-modal
+  #createModal
+  [breakpoints]="[0, 0.5, 1]"
+  [initialBreakpoint]="0.5"
+  [backdropDismiss]="true"
+  (willDismiss)="onDismiss()"
+>
+  <ng-template>
+    <ion-header collapse="condense">
+      <ion-toolbar>
+        <ion-title>Nueva tarea</ion-title>
+        <ion-buttons slot="end">
+          <ion-button (click)="dismiss()">
+            <ion-icon [icon]="close"></ion-icon>
+          </ion-button>
+        </ion-buttons>
+      </ion-toolbar>
+    </ion-header>
+
+    <ion-content class="modal-content">
+      <div class="form-section">
+        <ion-input
+          [(ngModel)]="taskTitle"
+          placeholder="¿Qué necesitas hacer?"
+          (keydown.enter)="onSave()"
+          class="task-input"
+        ></ion-input>
+      </div>
+
+      <div class="form-section">
+        <label class="section-label">Asignar categoría</label>
+        <div class="category-pills">
+          @for (category of categories; track category.id) {
+            <button
+              class="category-pill"
+              [class.active]="selectedCategoryId === category.id"
+              (click)="selectCategory(category.id)"
+            >
+              <span class="emoji">{{ category.emoji }}</span>
+              <span>{{ category.name }}</span>
+            </button>
+          }
+        </div>
+      </div>
+
+      <div class="form-section">
+        <ion-button
+          expand="block"
+          color="primary"
+          [disabled]="!taskTitle.trim()"
+          (click)="onSave()"
+          class="save-button"
+        >
+          Guardar tarea
+        </ion-button>
+      </div>
+    </ion-content>
+  </ng-template>
+</ion-modal>

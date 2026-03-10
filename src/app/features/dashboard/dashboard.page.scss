@@ -1,0 +1,88 @@
+ion-header {
+  --ion-background-color: white;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.dashboard-toolbar {
+  --min-height: 88px;
+  --padding-start: 16px;
+  --padding-end: 8px;
+  --padding-top: 8px;
+  --padding-bottom: 8px;
+}
+
+.dashboard-header-inner {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  width: 100%;
+}
+
+.dashboard-title-group {
+  min-width: 0;
+  max-width: calc(100% - 52px);
+}
+
+.header-title {
+  margin: 0;
+  font-size: 26px;
+  font-weight: 700;
+  line-height: 1.2;
+  color: #1f2937;
+  white-space: normal;
+}
+
+.header-subtitle {
+  margin: 4px 0 0 0;
+  font-size: 14px;
+  line-height: 1.35;
+  color: #9ca3af;
+  white-space: normal;
+}
+
+.settings-button {
+  margin-top: -2px;
+  --padding-start: 8px;
+  --padding-end: 8px;
+}
+
+:host-context(.ios) .dashboard-toolbar {
+  --min-height: 96px;
+  --padding-top: 10px;
+}
+
+:host-context(.md) .dashboard-toolbar {
+  --min-height: 84px;
+}
+
+ion-content {
+  --background: #f3f4f6;
+}
+
+.page-container {
+  padding: 16px;
+}
+
+.task-list {
+  --ion-item-background: transparent;
+  --ion-item-border-color: transparent;
+}
+
+.empty-state {
+  text-align: center;
+  padding: 48px 24px;
+}
+
+.empty-icon {
+  font-size: 64px;
+  margin-bottom: 16px;
+}
+
+.empty-text {
+  color: #9ca3af;
+  font-size: 16px;
+}
+
+ion-fab-button {
+  --box-shadow: 0 4px 12px rgba(124, 58, 237, 0.4);
+}
