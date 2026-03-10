@@ -1,5 +1,6 @@
 import { Component, OnInit, ViewChild, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { ScrollingModule } from '@angular/cdk/scrolling';
 import { RouterModule } from '@angular/router';
 import {
   IonHeader,
@@ -25,6 +26,7 @@ import { settings, add } from 'ionicons/icons';
   standalone: true,
   imports: [
     CommonModule,
+    ScrollingModule,
     RouterModule,
     IonHeader,
     IonToolbar,
@@ -101,5 +103,9 @@ export class DashboardPage implements OnInit {
 
   navigateToCategories(): void {
     this.router.navigate(['/categories']);
+  }
+
+  trackByTaskId(_index: number, task: Task): string {
+    return task.id;
   }
 }

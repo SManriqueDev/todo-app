@@ -61,11 +61,22 @@ ion-content {
 
 .page-container {
   padding: 16px;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
 }
 
 .task-list {
   --ion-item-background: transparent;
   --ion-item-border-color: transparent;
+  padding: 0;
+  margin: 0;
+}
+
+.task-viewport {
+  flex: 1;
+  min-height: 220px;
+  width: 100%;
 }
 
 .empty-state {

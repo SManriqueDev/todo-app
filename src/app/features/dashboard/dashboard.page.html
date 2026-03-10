@@ -12,7 +12,7 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content>
+<ion-content [scrollY]="false">
   <div class="page-container">
     <app-gamification-header></app-gamification-header>
 
@@ -22,16 +22,23 @@
       (filterChange)="onFilterChange($event)"
     ></app-category-filter>
 
-    <ion-list class="task-list" *ngIf="filteredTasks.length > 0">
-      @for (task of filteredTasks; track task.id) {
-      <app-task-item
-        [task]="task"
-        [category]="getCategoryById(task.categoryId)"
-        (toggleTask)="onToggleTask($event)"
-        (deleteTask)="onDeleteTask($event)"
-      ></app-task-item>
-      }
-    </ion-list>
+    <cdk-virtual-scroll-viewport
+      *ngIf="filteredTasks.length > 0"
+      class="task-viewport ion-content-scroll-host"
+      [itemSize]="72"
+      [minBufferPx]="720"
+      [maxBufferPx]="1080"
+    >
+      <ion-list class="task-list">
+        <app-task-item
+          *cdkVirtualFor="let task of filteredTasks; trackBy: trackByTaskId"
+          [task]="task"
+          [category]="getCategoryById(task.categoryId)"
+          (toggleTask)="onToggleTask($event)"
+          (deleteTask)="onDeleteTask($event)"
+        ></app-task-item>
+      </ion-list>
+    </cdk-virtual-scroll-viewport>
 
     @if (filteredTasks.length === 0) {
     <div class="empty-state">
