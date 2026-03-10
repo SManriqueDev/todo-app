@@ -1,0 +1,8 @@
+platforms
+plugins
+www
+resources
+node_modules
+coverage
+dist
+package-lock.json
