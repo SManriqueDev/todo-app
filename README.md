@@ -1,6 +1,6 @@
 # ToDoApp - Ionic + Angular
 
-Aplicación móvil híbrida para gestión de tareas, construida con Ionic 8 y Angular 20. El proyecto prioriza rendimiento en listas grandes, arquitectura modular y una base mantenible para evolución continua.
+Aplicación móvil híbrida para gestión de tareas, construida con Ionic 8 y Angular 20. Incluye un sistema de gamificación (XP y niveles) y usa Firebase Remote Config para habilitar o deshabilitar características, además de ajustar reglas como XP por tarea y límites por nivel sin necesidad de publicar una nueva versión. El proyecto prioriza rendimiento en listas grandes, arquitectura modular y una base mantenible para evolución continua.
 
 ## Requisitos Previos
 
@@ -32,6 +32,35 @@ npm install
 npm start
 ```
 
+## Configuración de Firebase y Remote Config
+
+La app inicializa Firebase al arrancar y consulta Remote Config para controlar comportamientos de gamificación.
+
+1. Configura credenciales de Firebase en ambientes:
+
+- `src/environments/environment.ts` (desarrollo base)
+- `src/environments/environment.local.ts` (configuración local)
+- `src/environments/environment.prod.ts` (producción)
+
+Debes definir al menos: `apiKey`, `authDomain`, `projectId`, `appId` (y opcionales como `storageBucket`, `messagingSenderId`, `measurementId`).
+
+2. Crea/actualiza parámetros en **Firebase Remote Config**:
+
+- `enable_gamification` (boolean): habilita/deshabilita UI y lógica de gamificación.
+- `xp_per_task` (number): XP otorgada al completar tareas.
+- `max_xp_per_level` (number): XP máxima por nivel.
+- `xp_penalty_on_uncheck` (boolean): aplica penalización al desmarcar tareas.
+
+3. Publica los cambios en Remote Config desde Firebase Console.
+
+4. Ejecuta la app:
+
+```bash
+ng serve --configuration local
+```
+
+Si no hay configuración válida de Firebase, la app usa valores por defecto para gamificación.
+
 ## Pasos para Compilar
 
 ### Compilación web
@@ -62,13 +91,17 @@ Luego genera el `.ipa` desde Xcode (Archive/Export) abriendo `platforms/ios`.
 ## Enlaces de descarga de artefactos
 
 - APK: [Descargar APK](https://drive.google.com/file/d/REEMPLAZAR_ID_APK/view)
-- IPA: [Descargar IPA](https://drive.google.com/file/d/REEMPLAZAR_ID_IPA/view)
+- IPA: [Descargar IPA](https://drive.google.com/file/d/1O9DNU8e71DFxubC7KaRBG_ceOlUgI2Zw/view)
 
 ## Demo en video (Google Drive)
 
 [![Ver demo ToDoApp](./evidence/demo-image.png)](https://drive.google.com/file/d/1XMhx1Y71cTKhtlqGsXcO18ylZipwsa_B/view)
 
 Video local (evidencia): [`./evidence/demo.mov`](./evidence/demo.mov)
+
+## Prototipo / Diseño (Figma)
+
+[Ver prototipo en Figma](https://www.figma.com/make/PwO4dDN8psjculgRGobO7q/Gamified-To-Do-List-UI?fullscreen=1&t=G1wd60uTLX8RCje9-1)
 
 ## Vistas principales (móvil)
 
