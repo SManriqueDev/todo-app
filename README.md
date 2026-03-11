@@ -90,7 +90,7 @@ Luego genera el `.ipa` desde Xcode (Archive/Export) abriendo `platforms/ios`.
 
 ## Enlaces de descarga de artefactos
 
-- APK: [Descargar APK](https://drive.google.com/file/d/1DwcSItZWS794b5FfuLQPv2OchfJeDXbe/view)
+- APK: [Descargar APK](https://drive.google.com/file/d/1UxF1i2vXovR6ul0oCQuLIK_Wl7tMBdPR/view)
 - IPA: [Descargar IPA](https://drive.google.com/file/d/1O9DNU8e71DFxubC7KaRBG_ceOlUgI2Zw/view)
 
 ## Demo en video (Google Drive)

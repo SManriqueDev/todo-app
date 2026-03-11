@@ -1,0 +1,11 @@
+{
+  "android": {
+    "release": {
+      "keystore": "~/todo-app.keystore",
+      "storePassword": "todoapp",
+      "alias": "mi_alias",
+      "password" : "todoapp",
+      "keystoreType": "jks"
+    }
+  }
+}
