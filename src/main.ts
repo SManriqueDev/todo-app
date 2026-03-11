@@ -7,14 +7,14 @@ import {
 } from '@angular/router';
 import { IonicRouteStrategy, provideIonicAngular } from '@ionic/angular/standalone';
 import { IonicStorageModule } from '@ionic/storage-angular';
-import { APP_INITIALIZER, importProvidersFrom } from '@angular/core';
+import { importProvidersFrom, inject, provideAppInitializer } from '@angular/core';
 
 import { routes } from './app/app.routes';
 import { AppComponent } from './app/app.component';
 import { FirebaseConfigService } from './app/core/services';
 
-function initializeRemoteConfig(firebaseConfigService: FirebaseConfigService): () => Promise<void> {
-  return () => firebaseConfigService.init();
+function initializeRemoteConfig(): Promise<void> {
+  return inject(FirebaseConfigService).init();
 }
 
 bootstrapApplication(AppComponent, {
@@ -23,11 +23,6 @@ bootstrapApplication(AppComponent, {
     provideIonicAngular(),
     provideRouter(routes, withPreloading(PreloadAllModules)),
     importProvidersFrom(IonicStorageModule.forRoot()),
-    {
-      provide: APP_INITIALIZER,
-      useFactory: initializeRemoteConfig,
-      deps: [FirebaseConfigService],
-      multi: true,
-    },
+    provideAppInitializer(initializeRemoteConfig),
   ],
 });
