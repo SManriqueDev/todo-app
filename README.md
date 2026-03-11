@@ -66,9 +66,23 @@ Luego genera el `.ipa` desde Xcode (Archive/Export) abriendo `platforms/ios`.
 
 ## Demo en video (Google Drive)
 
-[![Ver demo ToDoApp](https://placehold.co/960x540?text=Ver+Demo+ToDoApp)](https://drive.google.com/file/d/REEMPLAZAR_ID_VIDEO/view)
+[![Ver demo ToDoApp](./evidence/demo-image.png)](https://drive.google.com/file/d/1XMhx1Y71cTKhtlqGsXcO18ylZipwsa_B/view)
 
-> Reemplaza `REEMPLAZAR_ID_VIDEO`, `REEMPLAZAR_ID_APK` y `REEMPLAZAR_ID_IPA` por los IDs reales de Google Drive.
+Video local (evidencia): [`./evidence/demo.mov`](./evidence/demo.mov)
+
+## Vistas principales (móvil)
+
+### Dashboard
+
+![Vista móvil del dashboard](./evidence/dashboard.png)
+
+### Nueva tarea
+
+![Vista móvil de nueva tarea](./evidence/new-task.png)
+
+### Gestión de categorías
+
+![Vista móvil de gestión de categorías](./evidence/manage-categories.png)
 
 ## Respuestas a la prueba técnica
 
