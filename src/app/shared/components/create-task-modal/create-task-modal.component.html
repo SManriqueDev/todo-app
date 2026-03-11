@@ -36,7 +36,7 @@
               [class.active]="selectedCategoryId === category.id"
               (click)="selectCategory(category.id)"
             >
-              <span class="emoji">{{ category.emoji }}</span>
+              <img class="emoji-image" [src]="emojiUrl(category.emoji)" [alt]="category.emoji" />
               <span>{{ category.name }}</span>
             </button>
           }

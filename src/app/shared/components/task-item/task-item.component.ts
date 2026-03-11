@@ -3,6 +3,7 @@ import {
   Component,
   ViewChild,
   effect,
+  inject,
   input,
   output,
 } from '@angular/core';
@@ -19,6 +20,7 @@ import {
 import { IonIcon } from '@ionic/angular/standalone';
 import { trash } from 'ionicons/icons';
 import { Task, Category } from '../../../core/models';
+import { EmojiRenderService } from '../../../core/services';
 
 @Component({
   selector: 'app-task-item',
@@ -46,8 +48,7 @@ export class TaskItemComponent {
   @ViewChild(IonItemSliding) slidingItem?: IonItemSliding;
 
   trash = trash;
-
-  private firstTaskEmission = true;
+  private readonly emojiRenderService = inject(EmojiRenderService);
 
   constructor() {
     effect(() => {
@@ -60,6 +61,8 @@ export class TaskItemComponent {
     });
   }
 
+  private firstTaskEmission = true;
+
   onToggle(): void {
     this.toggleTask.emit(this.task().id);
   }
@@ -67,5 +70,9 @@ export class TaskItemComponent {
   onDelete(): void {
     void this.slidingItem?.close();
     this.deleteTask.emit(this.task().id);
+  }
+
+  emojiUrl(emoji: string): string {
+    return this.emojiRenderService.toSvgUrl(emoji);
   }
 }

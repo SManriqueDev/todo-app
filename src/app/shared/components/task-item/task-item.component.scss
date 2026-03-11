@@ -19,7 +19,16 @@
 
 .task-checkbox {
   --size: 24px;
+  --border-color: #6b7280;
+  --border-width: 2px;
+  --checkbox-background: #ffffff;
   margin-right: 12px;
+}
+
+:host-context(.md) .task-checkbox {
+  --border-color: #4b5563;
+  --border-width: 2px;
+  --checkbox-background: #ffffff;
 }
 
 .task-title {

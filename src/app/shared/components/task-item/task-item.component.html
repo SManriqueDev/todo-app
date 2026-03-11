@@ -13,7 +13,9 @@
     </ion-label>
     @if (category()) {
       <ion-badge slot="end" color="light" class="category-badge">
-        {{ category()?.emoji }}
+        @if (category()?.emoji; as emoji) {
+          <img class="emoji-image" [src]="emojiUrl(emoji)" [alt]="emoji" />
+        }
       </ion-badge>
     }
   </ion-item>

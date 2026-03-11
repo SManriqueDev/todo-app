@@ -47,6 +47,10 @@
     'Roboto',
     'Helvetica',
     'Arial',
+    'Apple Color Emoji',
+    'Segoe UI Emoji',
+    'Segoe UI Symbol',
+    'Noto Color Emoji',
     sans-serif;
 }
 
@@ -150,4 +154,31 @@ ion-header ion-toolbar {
 
 .rounded-full {
   border-radius: 999px;
+}
+
+.emoji-text {
+  font-family:
+    'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji', sans-serif !important;
+}
+
+.emoji-image {
+  width: 1em;
+  height: 1em;
+  display: inline-block;
+  vertical-align: -0.12em;
+}
+
+.emoji-image-lg {
+  width: 28px;
+  height: 28px;
+}
+
+.emoji-image-xl {
+  width: 32px;
+  height: 32px;
+}
+
+.emoji-image-2xl {
+  width: 64px;
+  height: 64px;
 }

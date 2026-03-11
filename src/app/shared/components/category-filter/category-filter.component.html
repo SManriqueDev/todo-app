@@ -12,7 +12,7 @@
       [class.active]="activeFilter() === category.id"
       (click)="onFilterChange(category.id)"
     >
-      <span class="emoji">{{ category.emoji }}</span>
+      <img class="emoji-image" [src]="emojiUrl(category.emoji)" [alt]="category.emoji" />
       <span>{{ category.name }}</span>
     </button>
   }

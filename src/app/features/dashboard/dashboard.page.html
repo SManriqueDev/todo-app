@@ -47,7 +47,11 @@
     </cdk-virtual-scroll-viewport>
     } @if (filteredTasks().length === 0) {
     <div class="empty-state">
-      <div class="empty-icon">📝</div>
+      <img
+        class="empty-icon emoji-image emoji-image-2xl"
+        src="assets/twemoji/64/1f4dd.png"
+        alt="📝"
+      />
       <p class="empty-text">Aún no tienes tareas. ¡Crea una!</p>
     </div>
     }

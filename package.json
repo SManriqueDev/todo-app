@@ -28,10 +28,12 @@
     "@ionic/cordova-builders": "^12.3.0",
     "@ionic/storage-angular": "^4.0.0",
     "canvas-confetti": "^1.9.4",
+    "emoji-datasource-twitter": "^16.0.0",
     "firebase": "^12.10.0",
     "ionicons": "^7.0.0",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0",
+    "twemoji": "^14.0.2",
     "zone.js": "~0.15.0"
   },
   "devDependencies": {

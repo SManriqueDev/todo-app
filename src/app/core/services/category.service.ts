@@ -5,10 +5,10 @@ import { StorageService } from './storage.service';
 const CATEGORIES_KEY = 'gamified_categories';
 
 const SEED_CATEGORIES: Category[] = [
-  { id: '1', name: 'Trabajo', emoji: '💼', createdAt: Date.now() },
-  { id: '2', name: 'Personal', emoji: '👤', createdAt: Date.now() },
-  { id: '3', name: 'Compras', emoji: '🛒', createdAt: Date.now() },
-  { id: '4', name: 'Ejercicio', emoji: '🏃', createdAt: Date.now() },
+  { id: '1', name: 'Trabajo', emoji: '\u{1F4BC}', createdAt: Date.now() },
+  { id: '2', name: 'Personal', emoji: '\u{1F464}', createdAt: Date.now() },
+  { id: '3', name: 'Compras', emoji: '\u{1F6D2}', createdAt: Date.now() },
+  { id: '4', name: 'Ejercicio', emoji: '\u{1F3C3}', createdAt: Date.now() },
 ];
 
 const LEGACY_CATEGORY_TRANSLATIONS: Record<string, string> = {
@@ -16,6 +16,13 @@ const LEGACY_CATEGORY_TRANSLATIONS: Record<string, string> = {
   Personal: 'Personal',
   Groceries: 'Compras',
   Fitness: 'Ejercicio',
+};
+
+const DEFAULT_EMOJI_BY_NAME: Record<string, string> = {
+  Trabajo: '\u{1F4BC}',
+  Personal: '\u{1F464}',
+  Compras: '\u{1F6D2}',
+  Ejercicio: '\u{1F3C3}',
 };
 
 @Injectable({
@@ -35,7 +42,18 @@ export class CategoryService {
     if (stored && stored.length > 0) {
       const migrated = stored.map((category) => {
         const translatedName = LEGACY_CATEGORY_TRANSLATIONS[category.name];
-        return translatedName ? { ...category, name: translatedName } : category;
+        const normalizedName = translatedName ?? category.name;
+        const fallbackEmoji = DEFAULT_EMOJI_BY_NAME[normalizedName];
+        const normalizedEmoji =
+          (category.emoji === '?' || category.emoji === '\uFFFD') && fallbackEmoji
+            ? fallbackEmoji
+            : category.emoji;
+
+        return {
+          ...category,
+          name: normalizedName,
+          emoji: normalizedEmoji,
+        };
       });
       this.categoriesSignal.set(migrated);
       await this.persistCategories(migrated);

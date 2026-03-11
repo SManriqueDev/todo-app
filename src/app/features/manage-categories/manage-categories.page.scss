@@ -31,8 +31,8 @@ ion-list {
 
 .category-item {
   --padding-start: 16px;
-  --padding-end: 16px;
-  --inner-padding-end: 8px;
+  --padding-end: 8px;
+  --inner-padding-end: 0;
   background: white;
   border: 1px solid #f3f4f6;
   border-radius: 12px;
@@ -45,6 +45,7 @@ ion-list {
 .category-item.edit-mode {
   padding: 12px 16px;
   gap: 12px;
+  align-items: center;
 }
 
 .category-content {
@@ -52,10 +53,6 @@ ion-list {
   align-items: center;
   gap: 12px;
   flex: 1;
-}
-
-.emoji {
-  font-size: 28px;
 }
 
 .category-name {
@@ -66,10 +63,21 @@ ion-list {
 
 .category-actions {
   display: flex;
-  gap: 8px;
+  gap: 2px;
+  margin-left: auto;
+}
+
+.category-actions ion-button {
+  --padding-start: 4px;
+  --padding-end: 4px;
+  margin: 0;
 }
 
 .emoji-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 auto;
   background: none;
   border: none;
   font-size: 32px;
@@ -85,14 +93,24 @@ ion-list {
 
 .edit-input {
   flex: 1;
+  min-width: 0;
   --padding-start: 0;
   --padding-end: 0;
+  --color: #1f2937;
+  --placeholder-color: #9ca3af;
   border-bottom: 2px solid #e5e7eb;
+}
+
+:host-context(.md) .edit-input {
+  --color: #111827;
 }
 
 .edit-actions {
   display: flex;
   gap: 8px;
+  margin-left: auto;
+  flex: 0 0 auto;
+  white-space: nowrap;
 }
 
 .create-card {
@@ -127,24 +145,42 @@ ion-card-content {
 }
 
 .emoji-picker {
-  display: grid;
-  grid-template-columns: repeat(8, 1fr);
+  display: flex;
   gap: 8px;
-  max-height: 200px;
-  overflow-y: auto;
+  overflow-x: auto;
+  overflow-y: hidden;
   padding: 8px;
   background: #f9fafb;
   border-radius: 8px;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+}
+
+.emoji-picker::-webkit-scrollbar {
+  display: none;
 }
 
 .emoji-option {
+  flex: 0 0 auto;
+  width: 48px;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   background: none;
   border: none;
-  font-size: 28px;
+  line-height: 1;
   cursor: pointer;
-  padding: 8px;
+  padding: 0;
   border-radius: 8px;
   transition: all 0.2s;
+}
+
+.emoji-option .emoji-image {
+  width: 32px;
+  height: 32px;
+  object-fit: contain;
+  display: block;
 }
 
 .emoji-option:hover {

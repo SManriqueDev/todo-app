@@ -17,35 +17,35 @@ import {
   IonCardContent,
   IonAlert,
 } from '@ionic/angular/standalone';
-import { CategoryService, TaskService } from '../../core/services';
+import { CategoryService, EmojiRenderService, TaskService } from '../../core/services';
 import { Category } from '../../core/models';
-import { trash, pencil } from 'ionicons/icons';
+import { trash, pencil, checkmark, close } from 'ionicons/icons';
 
 const POPULAR_EMOJIS = [
-  '💼',
-  '👤',
-  '🛒',
-  '🏃',
-  '📚',
-  '🎯',
-  '💡',
-  '🎨',
-  '🏠',
-  '💪',
-  '🎵',
-  '✈️',
-  '🍕',
-  '🎮',
-  '💰',
-  '🌟',
-  '📱',
-  '⚽',
-  '🎬',
-  '🌱',
-  '🔧',
-  '📝',
-  '🎓',
-  '🚗',
+  '\u{1F4BC}',
+  '\u{1F464}',
+  '\u{1F6D2}',
+  '\u{1F3C3}',
+  '\u{1F4DA}',
+  '\u{1F3AF}',
+  '\u{1F4A1}',
+  '\u{1F3A8}',
+  '\u{1F3E0}',
+  '\u{1F4AA}',
+  '\u{1F3B5}',
+  '\u2708\uFE0F',
+  '\u{1F355}',
+  '\u{1F3AE}',
+  '\u{1F4B0}',
+  '\u{1F31F}',
+  '\u{1F4F1}',
+  '\u26BD',
+  '\u{1F3AC}',
+  '\u{1F331}',
+  '\u{1F527}',
+  '\u{1F4DD}',
+  '\u{1F393}',
+  '\u{1F697}',
 ];
 
 @Component({
@@ -76,11 +76,12 @@ const POPULAR_EMOJIS = [
 export class ManageCategoriesPage {
   private readonly categoryService = inject(CategoryService);
   private readonly taskService = inject(TaskService);
+  private readonly emojiRenderService = inject(EmojiRenderService);
   @ViewChild('deleteAlert') deleteAlert!: IonAlert;
 
   readonly categories = this.categoryService.categories;
   newCategoryName = '';
-  selectedEmoji = '💼';
+  selectedEmoji = '\u{1F4BC}';
   editingId: string | null = null;
   editName = '';
   editEmoji = '';
@@ -88,6 +89,8 @@ export class ManageCategoriesPage {
 
   pencil = pencil;
   trash = trash;
+  checkmark = checkmark;
+  close = close;
 
   alertButtons = [
     { text: 'Cancelar', role: 'cancel' },
@@ -144,5 +147,9 @@ export class ManageCategoriesPage {
       await this.categoryService.delete(this.categoryToDelete.id);
       this.categoryToDelete = null;
     }
+  }
+
+  emojiUrl(emoji: string): string {
+    return this.emojiRenderService.toSvgUrl(emoji);
   }
 }

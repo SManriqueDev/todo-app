@@ -101,3 +101,8 @@ ion-content {
 ion-fab-button {
   --box-shadow: 0 4px 12px rgba(124, 58, 237, 0.4);
 }
+
+:host-context(.ios) ion-fab[horizontal='end'] {
+  margin-right: calc(env(safe-area-inset-right) + 8px);
+  margin-bottom: calc(env(safe-area-inset-bottom) + 8px);
+}

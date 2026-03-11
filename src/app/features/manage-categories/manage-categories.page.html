@@ -16,7 +16,11 @@
         category.id) {
         <ion-item class="category-item">
           <div class="category-content">
-            <span class="emoji">{{ category.emoji }}</span>
+            <img
+              class="emoji-image emoji-image-lg"
+              [src]="emojiUrl(category.emoji)"
+              [alt]="category.emoji"
+            />
             <span class="category-name">{{ category.name }}</span>
           </div>
           <div class="category-actions">
@@ -29,18 +33,35 @@
           </div>
         </ion-item>
         } @if (editingId === category.id) {
-        <ion-item class="category-item edit-mode">
-          <button class="emoji-button" (click)="cycleEmoji()">{{ editEmoji }}</button>
+        <div class="category-item edit-mode">
+          <button class="emoji-button" (click)="cycleEmoji()">
+            <img class="emoji-image emoji-image-xl" [src]="emojiUrl(editEmoji)" [alt]="editEmoji" />
+          </button>
           <ion-input
             [(ngModel)]="editName"
             placeholder="Nombre de la categoría"
             class="edit-input"
           ></ion-input>
           <div class="edit-actions">
-            <ion-button (click)="saveEdit()" color="primary" size="small"> Guardar </ion-button>
-            <ion-button (click)="cancelEdit()" fill="outline" size="small"> Cancelar </ion-button>
+            <ion-button
+              (click)="saveEdit()"
+              color="primary"
+              fill="solid"
+              size="small"
+              aria-label="Guardar categoría"
+            >
+              <ion-icon slot="icon-only" [icon]="checkmark"></ion-icon>
+            </ion-button>
+            <ion-button
+              (click)="cancelEdit()"
+              fill="outline"
+              size="small"
+              aria-label="Cancelar edición"
+            >
+              <ion-icon slot="icon-only" [icon]="close"></ion-icon>
+            </ion-button>
           </div>
-        </ion-item>
+        </div>
         } }
       </ion-list>
     </div>
@@ -66,7 +87,7 @@
               [class.selected]="selectedEmoji === emoji"
               (click)="selectEmoji(emoji)"
             >
-              {{ emoji }}
+              <img class="emoji-image emoji-image-lg" [src]="emojiUrl(emoji)" [alt]="emoji" />
             </button>
             }
           </div>

@@ -13,7 +13,7 @@ import {
 } from '@ionic/angular/standalone';
 import { IonIcon } from '@ionic/angular/standalone';
 import { close } from 'ionicons/icons';
-import { CategoryService, TaskService } from '../../../core/services';
+import { CategoryService, EmojiRenderService, TaskService } from '../../../core/services';
 
 @Component({
   selector: 'app-create-task-modal',
@@ -38,6 +38,7 @@ import { CategoryService, TaskService } from '../../../core/services';
 export class CreateTaskModalComponent {
   private readonly categoryService = inject(CategoryService);
   private readonly taskService = inject(TaskService);
+  private readonly emojiRenderService = inject(EmojiRenderService);
   @ViewChild('createModal') modal!: IonModal;
 
   taskTitle = '';
@@ -77,5 +78,9 @@ export class CreateTaskModalComponent {
 
   open(): void {
     this.modal?.present();
+  }
+
+  emojiUrl(emoji: string): string {
+    return this.emojiRenderService.toSvgUrl(emoji);
   }
 }

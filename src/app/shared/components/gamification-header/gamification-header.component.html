@@ -3,13 +3,21 @@
     <ion-card-content>
       <div class="gamification-container">
         <div class="gamification-left">
-          <div class="avatar">👨‍💻</div>
+          <div class="avatar">
+            <img
+              class="emoji-image emoji-image-xl"
+              src="assets/twemoji/64/1f468-200d-1f4bb.png"
+              alt="👨‍💻"
+            />
+          </div>
           <div class="level-info">
             <div class="level-text">Nivel {{ stats().level }}</div>
             <div class="xp-text">{{ stats().currentXP }}/{{ maxXpPerLevel() }} XP</div>
           </div>
         </div>
-        <div class="gamification-right">🏆</div>
+        <div class="gamification-right">
+          <img class="emoji-image emoji-image-xl" src="assets/twemoji/64/1f3c6.png" alt="🏆" />
+        </div>
       </div>
       <div class="xp-bar-container">
         <ion-progress-bar
