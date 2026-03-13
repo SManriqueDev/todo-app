@@ -32,9 +32,10 @@ export class CategoryService {
   private readonly categoriesSignal = signal<Category[]>([]);
   readonly categories = this.categoriesSignal.asReadonly();
   private readonly storageService = inject(StorageService);
+  readonly ready: Promise<void>;
 
   constructor() {
-    this.init();
+    this.ready = this.init();
   }
 
   private async init(): Promise<void> {

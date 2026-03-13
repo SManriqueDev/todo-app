@@ -21,9 +21,10 @@ export class GamificationService {
   readonly levelUp = this.levelUpSignal.asReadonly();
   private readonly storageService = inject(StorageService);
   private readonly firebaseConfigService = inject(FirebaseConfigService);
+  readonly ready: Promise<void>;
 
   constructor() {
-    this.init();
+    this.ready = this.init();
   }
 
   private async init(): Promise<void> {
